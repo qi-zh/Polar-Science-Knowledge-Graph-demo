@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: kg-public-demo
+Version: 0.1.0
+Summary: Minimal public reproducibility demo for the PENGUIN KG onboarding workflow.
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: neo4j<6,>=5.20
+
+# KG Public Demo
+
+This repository is a minimal public reproducibility demo for the onboarding and enrichment
+workflow described in the PENGUIN knowledge-graph paper. It does not contain the full
+PENGUIN platform code. Instead, it exposes one small end-to-end example:
+
+1. register specimen records as data-layer nodes
+2. anchor them to organism nodes through `SPECIMEN_OF_ORGANISM`
+3. enrich organism nodes with GloBI interaction edges and WoRMS habitat edges
+4. load the resulting graph into Neo4j
+5. print graph statistics in the terminal
+
+The original exploratory notebook is kept as `main.ipynb`. The public demo runtime is now
+the Python entrypoint `main.py`.
+
+## Project layout
+
+```text
+data/
+  input/test_data.csv        demo specimen records
+  cache/                     frozen API-response caches used by default
+outputs/
+  current/                   generated CSV artifacts from the latest run
+src/kg_public_demo/
+  cli.py                     CLI entrypoint logic
+  pipeline.py                onboarding workflow
+  ncbi.py                    NCBI taxonomy normalization
+  globi.py                   GloBI relation enrichment
+  worms.py                   WoRMS habitat enrichment
+  neo4j_loader.py            Neo4j import and graph summary
+main.py                      top-level launcher
+docker-compose.yml           app + Neo4j services
+```
+
+## Quick start
+
+1. Create an environment file:
+
+```bash
+cp .env.example .env
+```
+
+2. Run the full demo with Neo4j:
+
+```bash
+./scripts/run_demo.sh
+```
+
+This starts a Neo4j container, runs the Python onboarding pipeline in `frozen` mode, writes
+intermediate CSV files into `outputs/current/`, imports the graph into Neo4j, and prints the
+final node and relationship counts in the terminal.
+
+## Alternative commands
+
+Run only the Python pipeline and skip Neo4j:
+
+```bash
+docker compose run --rm app python main.py --mode frozen --skip-neo4j
+```
+
+Refresh the bundled caches from live external APIs:
+
+```bash
+docker compose run --rm app python main.py --mode live --refresh-cache --skip-neo4j
+```
+
+Keep Neo4j running for manual inspection:
+
+```bash
+docker compose up -d neo4j
+docker compose run --rm app python main.py --mode frozen --reset-db
+```
+
+Then open `http://localhost:7474` and log in with the credentials from `.env`.
+
+## Generated artifacts
+
+Each run writes the following files to `outputs/current/`:
+
+- `source_records.csv`
+- `organism.csv`
+- `anchor.csv`
+- `habitat.csv`
+- `globi.csv`
+- `inhabit.csv`
+
+These are the public, inspectable intermediate outputs of the onboarding workflow.

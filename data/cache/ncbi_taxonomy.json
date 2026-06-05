@@ -1,0 +1,66 @@
+{
+  "Adelie penguin": {
+    "common_name": "Adelie penguin",
+    "id": "organism_9238",
+    "rank": "species",
+    "scientific_name": "Pygoscelis adeliae",
+    "tax_id": "9238",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=9238"
+  },
+  "Anostraca": {
+    "common_name": "fairy shrimps",
+    "id": "organism_6659",
+    "rank": "order",
+    "scientific_name": "Anostraca",
+    "tax_id": "6659",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6659"
+  },
+  "Antarctic krill": {
+    "common_name": "Antarctic krill",
+    "id": "organism_6819",
+    "rank": "species",
+    "scientific_name": "Euphausia superba",
+    "tax_id": "6819",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6819"
+  },
+  "Crustaceans": {
+    "common_name": "crustaceans and hexapods",
+    "id": "organism_197562",
+    "rank": "clade",
+    "scientific_name": "Pancrustacea",
+    "tax_id": "197562",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=197562"
+  },
+  "King Penguin": {
+    "common_name": "king penguin",
+    "id": "organism_9234",
+    "rank": "species",
+    "scientific_name": "Aptenodytes patagonicus",
+    "tax_id": "9234",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=9234"
+  },
+  "Long-tailed Duck": {
+    "common_name": "long-tailed duck",
+    "id": "organism_197941",
+    "rank": "species",
+    "scientific_name": "Clangula hyemalis",
+    "tax_id": "197941",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=197941"
+  },
+  "Pycnogonida": {
+    "common_name": "sea spiders",
+    "id": "organism_57294",
+    "rank": "class",
+    "scientific_name": "Pycnogonida",
+    "tax_id": "57294",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=57294"
+  },
+  "Serolis": {
+    "common_name": "",
+    "id": "organism_104157",
+    "rank": "genus",
+    "scientific_name": "Serolis",
+    "tax_id": "104157",
+    "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=104157"
+  }
+}
