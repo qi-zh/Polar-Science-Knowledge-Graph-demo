@@ -1,7 +1,7 @@
 # KG Public Demo
 
 Minimal public reproducibility demo for the onboarding and enrichment workflow used in the
-Polar Data Knowledge-Graph project.
+Polar Science Knowledge-Graph project.
 
 This repository demonstrates a small end-to-end example of how source records are:
 
