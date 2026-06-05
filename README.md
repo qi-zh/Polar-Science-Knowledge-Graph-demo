@@ -1,9 +1,9 @@
 # KG Public Demo
 
-Minimal public reproducibility demo for the onboarding and enrichment workflow used in the
+Public reproducibility package for the onboarding and enrichment workflow used in the
 Polar Science Knowledge-Graph project.
 
-This repository demonstrates a small end-to-end example of how source records are:
+This repository provides a complete, self-contained example of how source records are:
 
 1. registered as data-layer nodes
 2. anchored to organism nodes through `SPECIMEN_OF_ORGANISM`
@@ -11,11 +11,11 @@ This repository demonstrates a small end-to-end example of how source records ar
 4. enriched with habitat relations from WoRMS
 5. loaded into Neo4j for inspection and summary statistics
 
-The default run uses bundled cached responses, so the demo is stable and reproducible.
+The default run uses bundled cached responses so the workflow remains stable and reproducible.
 
 ## Features
 
-- Small specimen input dataset in `data/input/test_data.csv`
+- Example specimen input dataset in `data/input/test_data.csv`
 - Python pipeline for onboarding and enrichment
 - Neo4j database running only inside Docker
 - Terminal-based graph inspection with `cypher-shell`
@@ -58,7 +58,7 @@ Stop the demo containers when you are done:
 
 ## Graph Preview
 
-The graph produced by this demo is a small specimen-centered knowledge graph linking
+The graph produced by this demo is a specimen-centered knowledge graph linking
 specimen records, organism nodes, habitat nodes, and organism-to-organism relations.
 Its overall structure is roughly like the following preview:
 
@@ -146,7 +146,7 @@ Each run writes the following files to `outputs/current/`:
 - `globi.csv`
 - `inhabit.csv`
 
-These files expose each stage of the workflow in a directly inspectable form.
+These files make each stage of the workflow directly inspectable.
 
 ## Optional Configuration
 
