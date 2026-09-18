@@ -1,0 +1,38 @@
+Expected results
+
+Graph size
+
+Record nodes: 2
+Knowledge nodes: 2
+Anchoring relations: 2
+Scientific relations: 1
+Total: 4 nodes and 3 relationships
+
+Directed relationships
+
+AMIDER specimen --SPECIMEN_OF_ORGANISM--> Euphausia superba
+ADS survey --OBSERVES_ORGANISM--> Pygoscelis adeliae
+Pygoscelis adeliae --PREYS_ON--> Euphausia superba
+
+Query results
+
+Run the query files after ./run_demo.sh completes:
+
+queries/01_graph_counts.cypher
+  Returns two nodes for each node_type (record and knowledge), and one
+  relationship of each type listed above.
+
+queries/02_discovery_path.cypher
+  Returns one path connecting AMIDER specimen A00850-0001 to the ADS
+  Mame_Island survey in 2020 (JARE61), through the krill and penguin organisms.
+  The result includes both records' source URLs.
+
+queries/03_source_fields.cypher
+  Returns the two records' source fields and the feeding relation's GloBI
+  source name and URL. See SOURCES.txt for the source references.
+
+Construction checks
+
+All seven validation checks report PASS for the bundled inputs. Repeated
+builds with unchanged inputs produce identical output files. A successful
+Docker run also verifies the committed database contents.

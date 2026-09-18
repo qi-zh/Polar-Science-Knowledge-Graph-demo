@@ -1,0 +1,32 @@
+{
+  "AMIDER": {
+    "record_label": "BiologicalSpecimen",
+    "record_unit": "one catalogued biological specimen",
+    "source_key_fields": [
+      "catalog_number"
+    ],
+    "name_fields": [
+      "catalog_number",
+      "scientific_name"
+    ],
+    "source_url_field": "source_url",
+    "scientific_name_field": "scientific_name"
+  },
+  "ADS": {
+    "record_label": "PopulationObservation",
+    "record_unit": "one station in one annual population survey",
+    "source_key_fields": [
+      "station",
+      "observation_year",
+      "campaign"
+    ],
+    "name_fields": [
+      "station",
+      "observation_year",
+      "campaign"
+    ],
+    "source_url_field": "source_url",
+    "scientific_name_field": "scientific_name",
+    "year_field": "observation_year"
+  }
+}

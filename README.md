@@ -1,214 +1,74 @@
-# KG Public Demo
+# Polar Science Knowledge Graph: Construction Demo
 
-Public reproducibility package for the onboarding and enrichment workflow used in the
-Polar Science Knowledge-Graph project.
+Build and explore a small Polar Science Knowledge Graph (PSKG) example in one command. This repository demonstrates the construction workflow in Figure 3 of *The Polar Science Knowledge Graph: A Scientific Index for Cross-Platform Data Discovery*.
 
-This repository provides a complete, self-contained example of how source records are:
+The example connects an AMIDER Antarctic krill specimen to an ADS Adélie penguin population survey through the organisms they describe and a feeding relation. Both records retain links to their original platforms.
 
-1. registered as data-layer nodes
-2. anchored to organism nodes through `SPECIMEN_OF_ORGANISM`
-3. enriched with organism interaction relations from GloBI
-4. enriched with habitat relations from WoRMS
-5. loaded into Neo4j for inspection and summary statistics
+## What the demo builds
 
-The default run uses bundled cached responses so the workflow remains stable and reproducible.
+The result is **four nodes and three relationships**: two Record nodes, two Organism Knowledge nodes, two anchoring relations, and one scientific relation.
 
-## Features
+```text
+AMIDER specimen --SPECIMEN_OF_ORGANISM--> Antarctic krill
+Adélie penguin  --PREYS_ON--------------> Antarctic krill
+ADS survey     --OBSERVES_ORGANISM-----> Adélie penguin
+```
 
-- Example specimen input dataset in `data/input/test_data.csv`
-- Python pipeline for onboarding and enrichment
-- Neo4j database running only inside Docker
-- Terminal-based graph inspection with `cypher-shell`
-- Generated intermediate CSV artifacts for each workflow stage
+The feeding relation lets users navigate from the krill specimen to the penguin survey. The terminal traces seven stages, from source-field mapping to the checked graph.
 
-## Requirements
+NCBI Taxonomy and GloBI access is **simulated using fixed local responses**. Field conversion, label-based rules, graph construction, validation, and Neo4j import execute normally. Human-confirmed identity mappings are supplied inputs.
 
-- Docker
-- Docker Compose
+## Quick start
 
-## Quick Start
-
-Run the full demo:
+Requirements: Linux, Git, Bash, `flock` from util-linux, Docker, and Docker Compose v2. Use a regular user with access to a local Unix-socket Docker engine. Allow at least 2 GB of Docker memory and internet access for the initial image build.
 
 ```bash
-./scripts/run_demo.sh
+git clone https://github.com/qi-zh/Polar-Science-Knowledge-Graph-demo.git
+cd Polar-Science-Knowledge-Graph-demo
+docker info
+./run_demo.sh
 ```
 
-This script:
-
-- starts Neo4j inside Docker
-- builds the demo application image
-- runs the onboarding pipeline
-- imports the graph into Neo4j
-- prints final graph statistics in the terminal
-
-After the run completes, Neo4j remains available inside Docker for terminal-based queries.
-
-Open an interactive Cypher shell:
+A successful run reports the graph size and verifies the database contents. Open the terminal query interface:
 
 ```bash
-./scripts/query_neo4j.sh
+./query_demo.sh
 ```
 
-Stop the demo containers when you are done:
-
-```bash
-./scripts/stop_demo.sh
-```
-
-## Graph Preview
-
-The graph produced by this demo is a specimen-centered knowledge graph linking
-specimen records, organism nodes, habitat nodes, and organism-to-organism relations.
-Its overall structure is roughly like the following preview:
-
-![KG demo graph preview](kg_graph.png)
-
-The exact layout in the image is illustrative, but it reflects the same kinds of nodes and
-relations created by the demo workflow.
-
-## Shell Scripts
-
-### `./scripts/run_demo.sh`
-
-Purpose:
-Run the complete demo workflow from start to finish.
-
-Usage:
-
-```bash
-./scripts/run_demo.sh
-```
-
-### `./scripts/query_neo4j.sh`
-
-Purpose:
-Open `cypher-shell` inside the Neo4j container, or run a one-line Cypher query from the terminal.
-
-Usage:
-
-```bash
-./scripts/query_neo4j.sh
-```
-
-Run a single query directly:
-
-```bash
-./scripts/query_neo4j.sh "MATCH (n) RETURN labels(n), count(n);"
-```
-
-### `./scripts/stop_demo.sh`
-
-Purpose:
-Stop and remove the Docker Compose services created for the demo.
-
-Usage:
-
-```bash
-./scripts/stop_demo.sh
-```
-
-## Example Cypher Queries
-
-Count node labels:
-
-```cypher
-MATCH (n)
-UNWIND labels(n) AS label
-RETURN label, count(*) AS count
-ORDER BY count DESC;
-```
-
-Count relationship types:
-
-```cypher
-MATCH ()-[r]->()
-RETURN type(r) AS relation_type, count(*) AS count
-ORDER BY count DESC;
-```
-
-Inspect a few example edges:
+Then enter a query, ending with a semicolon:
 
 ```cypher
 MATCH (a)-[r]->(b)
-RETURN a.id, type(r), b.id
-LIMIT 20;
+RETURN a.name, type(r), b.name;
 ```
 
-## Output Files
+Enter `:exit` to leave the query interface. Stop the demo with `./stop_demo.sh`; its graph and generated files are retained. Run `./run_demo.sh` again to verify and reuse that graph.
 
-Each run writes the following files to `outputs/current/`:
+Use **one checkout per Docker engine**: resource ownership is tied to the checkout directory. No host database ports or Neo4j Browser are exposed. See the [usage guide](docs/USAGE.md) for lifecycle controls and troubleshooting.
 
-- `source_records.csv`
-- `organism.csv`
-- `anchor.csv`
-- `habitat.csv`
-- `globi.csv`
-- `inhabit.csv`
+## Rules and inputs
 
-These files make each stage of the workflow directly inspectable.
+[Source mappings](rules/source_mappings.json) define record units and field conversion. [Label-based rules](rules/label_rules.json) govern the graph:
 
-## Optional Configuration
+| Node label | Rule responsibility |
+|---|---|
+| `BiologicalSpecimen` | Anchor the specimen to its confirmed Organism using `SPECIMEN_OF_ORGANISM`. |
+| `PopulationObservation` | Anchor the survey to its confirmed Organism using `OBSERVES_ORGANISM`. |
+| `Organism` | Select the identity source and prepare the supported scientific relation among confirmed organisms. |
 
-The default setup works without any additional configuration.
+Inputs and mock responses are in `data/`; implementation is in `src/`. Generated tables, `graph.json`, and `validation.json` appear in `outputs/current/`.
 
-If you want to change the Neo4j password, create a local environment file:
+## Documentation and tests
+
+- [Usage guide](docs/USAGE.md): Docker and file-only execution, queries, outputs, stopping, and reset.
+- [Sources and scope](docs/SOURCES.txt): sample provenance, confirmed identities, and mock responses.
+- [Expected results](docs/EXPECTED_RESULTS.txt): graph contents and query results.
+- [Query files](queries/): counts, cross-platform path, and source-field inspection.
+
+Run the automated tests with Python 3.12:
 
 ```bash
-cp .env.example .env
+python3 -B -m unittest discover -s tests -v
 ```
 
-Then edit:
-
-```env
-NEO4J_PASSWORD=your-password
-```
-
-## Common Commands
-
-Run the pipeline without importing into Neo4j:
-
-```bash
-docker compose run --rm app python main.py --mode frozen --skip-neo4j
-```
-
-Run the pipeline and reset the Neo4j database first:
-
-```bash
-docker compose run --rm app python main.py --mode frozen --reset-db
-```
-
-Refresh the bundled cache from live external APIs:
-
-```bash
-docker compose run --rm app python main.py --mode live --refresh-cache --skip-neo4j
-```
-
-Start only Neo4j:
-
-```bash
-docker compose up -d neo4j
-```
-
-## Repository Structure
-
-```text
-data/
-  input/      demo input records
-  cache/      bundled cached API responses
-outputs/
-  current/    generated CSV artifacts
-src/kg_public_demo/
-  pipeline.py
-  ncbi.py
-  globi.py
-  worms.py
-  neo4j_loader.py
-main.py
-kg_graph.png
-docker-compose.yml
-scripts/
-  run_demo.sh
-  query_neo4j.sh
-  stop_demo.sh
-```
+The software uses the [MIT license](LICENSE). See [sample sources and reuse terms](docs/SOURCES.txt) for third-party fields and references.

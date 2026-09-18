@@ -1,0 +1,23 @@
+{
+  "BiologicalSpecimen": {
+    "node_type": "record",
+    "anchor_field": "organism_node_id",
+    "target_label": "Organism",
+    "relationship_type": "SPECIMEN_OF_ORGANISM"
+  },
+  "PopulationObservation": {
+    "node_type": "record",
+    "anchor_field": "organism_node_id",
+    "target_label": "Organism",
+    "relationship_type": "OBSERVES_ORGANISM"
+  },
+  "Organism": {
+    "node_type": "knowledge",
+    "identity_source": "NCBI Taxonomy",
+    "interaction_source": "GloBI",
+    "scientific_relations": [
+      "PREYS_ON"
+    ],
+    "expansion_scope": "confirmed_entities_only"
+  }
+}

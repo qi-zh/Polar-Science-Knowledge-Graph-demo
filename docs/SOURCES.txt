@@ -1,0 +1,52 @@
+Sample sources
+
+The demo uses two metadata samples and simulated knowledge-source responses.
+
+AMIDER specimen
+
+File: data/amider_specimen.csv
+Catalogue number: A00850-0001
+Scientific name: Euphausia superba
+Record unit: one catalogued biological specimen
+Source: https://amider.rois.ac.jp/data/832
+
+ADS penguin survey
+
+File: data/ads_survey.csv
+Station: Mame_Island
+Observation year: 2020
+Campaign: JARE61
+Scientific name: Pygoscelis adeliae
+Record unit: one station in one annual population survey
+Source: https://ads.nipr.ac.jp/dataset/A20210507-018
+
+The ADS sample contains station/year metadata, without population counts.
+Its local key, Mame_Island|2020|JARE61, combines the station, year and campaign.
+
+Taxon identities
+
+data/reviewed_identity_mappings.csv supplies the confirmed identities used by
+the rules. data/mock_ncbi.json supplies simulated NCBI Taxonomy responses for:
+
+Euphausia superba (TaxID 6819)
+https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6819
+
+Pygoscelis adeliae (TaxID 9238)
+https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=9238
+
+Feeding relation
+
+data/mock_globi.json supplies a simulated GloBI response for:
+Pygoscelis adeliae --PREYS_ON--> Euphausia superba
+Reference:
+https://www.globalbioticinteractions.org/browse/?sourceTaxon=Pygoscelis+adeliae&interactionType=preysOn&targetTaxon=Euphausia+superba&excludeChildTaxa=true
+
+This relation connects the two taxa and supports navigation between their
+associated records. Both mock files are manually assembled example responses;
+the demo reads them locally rather than calling the external APIs.
+
+Reuse
+
+The MIT license covers the software. Third-party source fields and references
+remain subject to their original terms; this repository grants no additional
+rights over them. Consult the linked providers for applicable reuse conditions.

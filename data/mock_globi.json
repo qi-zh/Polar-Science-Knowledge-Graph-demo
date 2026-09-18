@@ -1,0 +1,9 @@
+[
+  {
+    "source_tax_id": "9238",
+    "target_tax_id": "6819",
+    "relationship_type": "PREYS_ON",
+    "source_name": "GloBI",
+    "source_url": "https://www.globalbioticinteractions.org/browse/?sourceTaxon=Pygoscelis+adeliae&interactionType=preysOn&targetTaxon=Euphausia+superba&excludeChildTaxa=true"
+  }
+]

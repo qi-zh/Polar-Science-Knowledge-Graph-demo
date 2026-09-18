@@ -1,0 +1,14 @@
+{
+  "6819": {
+    "tax_id": "6819",
+    "scientific_name": "Euphausia superba",
+    "source_name": "NCBI Taxonomy",
+    "source_url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6819"
+  },
+  "9238": {
+    "tax_id": "9238",
+    "scientific_name": "Pygoscelis adeliae",
+    "source_name": "NCBI Taxonomy",
+    "source_url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=9238"
+  }
+}
